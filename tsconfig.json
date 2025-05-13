@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "allowJs": true,
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -23,6 +24,10 @@
       "dom"
     ]
   },
+  "include": [
+    "src/**/*.ts", // Asegúrate de que se incluyan todos los archivos .ts
+    "src/**/*.js"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

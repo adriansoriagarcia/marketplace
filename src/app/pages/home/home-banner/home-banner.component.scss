@@ -1,0 +1,38 @@
+.ps-home-banner {
+    position: relative;
+    overflow: hidden;  /* Oculta los elementos que salen del contenedor */
+    width: 100%;
+  }
+  
+  .ps-carousel--nav-inside {
+    display: flex;
+    width: 100%;
+  }
+  
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;  /* Desplazamiento suave */
+  }
+  
+  .ps-banner--market-4 {
+    flex: 0 0 100%;  /* Cada slide ocupa el 100% del contenedor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  button {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:nth-child(1) { left: 10px; }
+  button:nth-child(2) { right: 10px; }
+  
