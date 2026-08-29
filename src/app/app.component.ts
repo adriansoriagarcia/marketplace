@@ -281,6 +281,7 @@ export class AppComponent implements OnInit {
             // Verifica si hay suficientes elementos hijos para inicializar el carrusel
             if (el.children('div, span, a, img, h1, h2, h3, h4, h5').length >= 2) {
               // Inicializar Owl Carousel
+              el.addClass('owl-carousel');
               el.owlCarousel({
                 animateIn: dataAnimateIn,
                 animateOut: dataAnimateOut,
@@ -532,46 +533,46 @@ export class AppComponent implements OnInit {
       }
 
       function productLightbox() {
-        // var product = $('.ps-product--detail');
-        // if (product.length > 0) {
-        //   $('.ps-product__gallery').lightGallery({
-        //     selector: '.item a',
-        //     thumbnail: true,
-        //     share: false,
-        //     fullScreen: false,
-        //     autoplay: false,
-        //     autoplayControls: false,
-        //     actualSize: false,
-        //   });
-        //   if (product.hasClass('ps-product--sticky')) {
-        //     $('.ps-product__thumbnail').lightGallery({
-        //       selector: '.item a',
-        //       thumbnail: true,
-        //       share: false,
-        //       fullScreen: false,
-        //       autoplay: false,
-        //       autoplayControls: false,
-        //       actualSize: false,
-        //     });
-        //   }
-        // }
-        // $('.ps-gallery--image').lightGallery({
-        //   selector: '.ps-gallery__item',
-        //   thumbnail: true,
-        //   share: false,
-        //   fullScreen: false,
-        //   autoplay: false,
-        //   autoplayControls: false,
-        //   actualSize: false,
-        // });
-        // $('.ps-video').lightGallery({
-        //   thumbnail: false,
-        //   share: false,
-        //   fullScreen: false,
-        //   autoplay: false,
-        //   autoplayControls: false,
-        //   actualSize: false,
-        // });
+        var product = $('.ps-product--detail');
+        if (product.length > 0) {
+          $('.ps-product__gallery').lightGallery({
+            selector: '.item a',
+            thumbnail: true,
+            share: false,
+            fullScreen: false,
+            autoplay: false,
+            autoplayControls: false,
+            actualSize: false,
+          });
+          if (product.hasClass('ps-product--sticky')) {
+            $('.ps-product__thumbnail').lightGallery({
+              selector: '.item a',
+              thumbnail: true,
+              share: false,
+              fullScreen: false,
+              autoplay: false,
+              autoplayControls: false,
+              actualSize: false,
+            });
+          }
+        }
+        $('.ps-gallery--image').lightGallery({
+          selector: '.ps-gallery__item',
+          thumbnail: true,
+          share: false,
+          fullScreen: false,
+          autoplay: false,
+          autoplayControls: false,
+          actualSize: false,
+        });
+        $('.ps-video').lightGallery({
+          thumbnail: false,
+          share: false,
+          fullScreen: false,
+          autoplay: false,
+          autoplayControls: false,
+          actualSize: false,
+        });
       }
 
       function backToTop() {

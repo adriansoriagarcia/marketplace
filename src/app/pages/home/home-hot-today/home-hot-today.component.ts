@@ -370,7 +370,7 @@ export class HomeHotTodayComponent implements OnInit {
 			OwlCarouselConfig.fnc();
 			CarouselNavigation.fnc();
 			SlickConfig.fnc();
-			ProductLightbox.fnc();			
+			ProductLightbox.fnc();
 
 			/*=============================================
 			Ejecutar funciones globales con respecto a las ofertas
