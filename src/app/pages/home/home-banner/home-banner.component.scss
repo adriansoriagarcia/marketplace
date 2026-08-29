@@ -21,6 +21,15 @@
     align-items: center;
     height: 100%;
   }
+
+  .ps-banner--market-4 img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
   
   button {
     position: absolute;
@@ -36,3 +45,9 @@
   button:nth-child(1) { left: 10px; }
   button:nth-child(2) { right: 10px; }
   
+  @media (max-width: 1200px) {
+  .ps-carousel--nav-inside {
+    width: 100%;
+    display: block;
+  }
+}

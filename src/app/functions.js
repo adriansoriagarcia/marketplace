@@ -29,6 +29,7 @@ export let OwlCarouselConfig = {
                     duration = el.data('owl-duration'),
                     datamouseDrag = (el.data('owl-mousedrag') == 'on') ? true : false;
                 if (target.children('div, span, a, img, h1, h2, h3, h4, h5, h5').length >= 2) {
+                    el.addClass('owl-carousel');
                     el.owlCarousel({
                         animateIn: dataAnimateIn,
                         animateOut: dataAnimateOut,
