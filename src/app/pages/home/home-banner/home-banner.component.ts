@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Path } from '../../../config';
+import { Path, Api } from '../../../config';
 //import { OwlCarouselConfig } from '../../../functions';
 
 import { ProductsService } from '../../../services/products.service';
@@ -14,7 +14,7 @@ declare var $: any;
 })
 export class HomeBannerComponent implements OnInit {
 
-	path:String = Path.url;	
+	path:String = 'assets/';	
 	banner_home:Array<any> = [];
 	category:Array<any> = [];
 	url:Array<any> = [];
