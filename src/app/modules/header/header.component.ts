@@ -25,7 +25,7 @@ interface SubCategory {
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  path:String = 'assets/';
+  path: string = 'assets/';
   categories: any[] = [];
   arrayTitleList: any[] = [];
   render: boolean = true;

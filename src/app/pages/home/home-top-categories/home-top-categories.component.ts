@@ -10,7 +10,7 @@ import { CategoriesService } from '../../../services/categories.service';
 })
 export class HomeTopCategoriesComponent implements OnInit {
 
-	path:String = 'assets/';
+	path: string = 'assets/';
 	categories:Array<any> = [];
 	cargando:Boolean = false;
 

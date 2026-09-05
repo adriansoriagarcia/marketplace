@@ -10,7 +10,7 @@ import { ProductsService } from '../../../services/products.service';
 })
 export class HomePromotionsComponent implements OnInit {
 
-	path:String = 'assets/';
+	path: string = 'assets/';
 	banner_default:Array<any> = [];	
 	category:Array<any> = [];
 	url:Array<any> = [];

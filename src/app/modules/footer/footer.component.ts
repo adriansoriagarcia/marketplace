@@ -18,7 +18,7 @@ interface SubCategory {
   styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
-  path:String = 'assets/';
+  path: string = 'assets/';
 
   categories: any[] = [];
   render: boolean = true;

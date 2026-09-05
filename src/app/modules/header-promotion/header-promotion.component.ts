@@ -19,7 +19,7 @@ interface TopBanner {
   styleUrl: './header-promotion.component.scss',
 })
 export class HeaderPromotionComponent {
-  path:String = 'assets/';
+  path: string = 'assets/';
   top_banner!: TopBanner;
   category: object = {};
   url: object = {};
