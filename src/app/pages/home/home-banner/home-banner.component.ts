@@ -14,7 +14,7 @@ declare var $: any;
 })
 export class HomeBannerComponent implements OnInit {
 
-	path:String = 'assets/';	
+	path: string = 'assets/';	
 	banner_home:Array<any> = [];
 	category:Array<any> = [];
 	url:Array<any> = [];
