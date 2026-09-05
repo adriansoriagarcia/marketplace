@@ -18,7 +18,7 @@ interface SubCategory {
   styleUrl: './header-mobile.component.scss',
 })
 export class HeaderMobileComponent {
-  path: string = Path.url;
+  path: string = 'assets/';
   categories: any[] = [];
   arrayTitleList: any[] = [];
   categoriesList: any[] = [];

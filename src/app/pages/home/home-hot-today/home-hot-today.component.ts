@@ -15,7 +15,7 @@ declare var $:any;
 })
 export class HomeHotTodayComponent implements OnInit {
 
-	path:String = Path.url;	
+	path:String = 'assets/';
 	indexes:Array<any> = [];
 	products:Array<any> = [];
 	render:Boolean = true;

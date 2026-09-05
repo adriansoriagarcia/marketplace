@@ -16,7 +16,7 @@ import { ProductsService } from '../../../services/products.service';
 })
 export class HomeShowcaseComponent implements OnInit {
 
-	path:String = Path.url;	
+	path:String = 'assets/';
 	categories:Array<any> = [];
 	cargando:Boolean = false;
 	render:Boolean = true;
