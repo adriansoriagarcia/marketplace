@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Path } from '../../config';
 import { ProductsService } from '../../services/products.service';
 import { ProductsModel } from '../../models/products.model';
@@ -18,7 +18,7 @@ interface TopBanner {
   templateUrl: './header-promotion.component.html',
   styleUrl: './header-promotion.component.scss',
 })
-export class HeaderPromotionComponent {
+export class HeaderPromotionComponent implements OnInit {
   path: string = 'assets/';
   top_banner!: TopBanner;
   category: object = {};

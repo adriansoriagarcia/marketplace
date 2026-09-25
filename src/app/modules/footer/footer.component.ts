@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Path } from '../../config';
 declare var jQuery: any;
 declare var $: any;
@@ -17,7 +17,7 @@ interface SubCategory {
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
   path: string = 'assets/';
 
   categories: any[] = [];
