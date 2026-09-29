@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Path } from '../../config';
 import { CategoriesService } from '../../services/categories.service';
 import { SubCategoriesService } from '../../services/sub-categories.service';
@@ -17,7 +17,7 @@ interface SubCategory {
   templateUrl: './header-mobile.component.html',
   styleUrl: './header-mobile.component.scss',
 })
-export class HeaderMobileComponent {
+export class HeaderMobileComponent implements OnInit, AfterViewInit {
   path: string = 'assets/';
   categories: any[] = [];
   arrayTitleList: any[] = [];
