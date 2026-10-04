@@ -24,7 +24,7 @@ import { HomeTopCategoriesComponent } from './pages/home/home-top-categories/hom
 import { HomeShowcaseComponent } from './pages/home/home-showcase/home-showcase.component';
 import { ProductsBreadcrumbComponent } from './pages/products/products-breadcrumb/products-breadcrumb.component';
 import { BestSalesItemComponent } from './pages/products/best-sales-item/best-sales-item.component';
-// import { ProductsRecommendedComponent } from './pages/products/products-recommended/products-recommended.component';
+import { ProductsRecommendedComponent } from './pages/products/products-recommended/products-recommended.component';
 // import { ProductsShowcaseComponent } from './pages/products/products-showcase/products-showcase.component';
 
 
@@ -50,7 +50,7 @@ import { BestSalesItemComponent } from './pages/products/best-sales-item/best-sa
     HomeShowcaseComponent,
     ProductsBreadcrumbComponent,
     BestSalesItemComponent,
-    //ProductsRecommendedComponent,
+    ProductsRecommendedComponent,
     //ProductsShowcaseComponent,
     // SearchBreadcrumbComponent,
     // SearchShowcaseComponent,
