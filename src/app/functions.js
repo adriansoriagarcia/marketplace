@@ -345,6 +345,76 @@ export let DinamicPrice = {
 
 }
 
+export let Pagination = {
+
+    fnc: function() {
+        $('.ps-pagination .pagination').each(function() {
+            var pagination = $(this);
+            var totalPages = Number(pagination.attr('data-total-pages')) || 0;
+            var actualPage = Number(pagination.attr('data-actual-page')) || 1;
+            var currentRoute = pagination.attr('data-current-route') || '';
+            var separator = currentRoute.indexOf('&') === -1 ? '&' : '&';
+            var pages = '';
+
+            if (totalPages < 1) {
+                return;
+            }
+
+            if (actualPage > 1) {
+                pages += '<li><a href="' + currentRoute + separator + (actualPage - 1) + '"><i class="icon-chevron-left"></i></a></li>';
+            }
+
+            for (var page = 1; page <= totalPages; page++) {
+                pages += '<li' + (page === actualPage ? ' class="active"' : '') + '><a href="' + currentRoute + separator + page + '">' + page + '</a></li>';
+            }
+
+            if (actualPage < totalPages) {
+                pages += '<li><a href="' + currentRoute + separator + (actualPage + 1) + '"><i class="icon-chevron-right"></i></a></li>';
+            }
+
+            pagination.html(pages);
+        });
+    }
+
+}
+
+export let Select2Cofig = {
+
+    fnc: function() {
+        $('select.ps-select').select2({
+            placeholder: function() {
+                return $(this).data('placeholder');
+            },
+            minimumResultsForSearch: -1
+        });
+    }
+
+}
+
+export let Tabs = {
+
+    fnc: function() {
+        $('.ps-tab-list li > a, .ps-tab-list.owl-slider .owl-item a').on('click', function(e) {
+            e.preventDefault();
+            var link = $(this);
+            var target = link.attr('href');
+
+            if (link.closest('.owl-item').length > 0) {
+                link.closest('.owl-item').siblings('.owl-item').removeClass('active');
+                link.closest('.owl-item').addClass('active');
+            } else {
+                link.closest('li').siblings('li').removeClass('active');
+                link.closest('li').addClass('active');
+            }
+
+            if (target) {
+                $(target).addClass('active').siblings('.ps-tab').removeClass('active');
+            }
+        });
+    }
+
+}
+
 /*=============================================
 ProgressBar
 =============================================*/
