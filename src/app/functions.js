@@ -281,6 +281,70 @@ export let Rating = {
 
 }
 
+export let DinamicRating = {
+
+    fnc: function(product) {
+        try {
+            var reviews = typeof product.reviews === 'string'
+                ? JSON.parse(product.reviews)
+                : product.reviews;
+            if (!Array.isArray(reviews) || reviews.length === 0) {
+                return 0;
+            }
+            var total = reviews.reduce(function(sum, review) {
+                return sum + Number(review.review || 0);
+            }, 0);
+            return Math.round(total / reviews.length);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+}
+
+export let DinamicReviews = {
+
+    fnc: function(rating) {
+        var reviews = [2, 2, 2, 2, 2];
+        if (Number.isInteger(Number(rating)) && Number(rating) >= 1 && Number(rating) <= 5) {
+            reviews[Number(rating) - 1] = 1;
+        }
+        return reviews;
+    }
+
+}
+
+export let DinamicPrice = {
+
+    fnc: function(product) {
+        var price = Number(product.price) || 0;
+        var displayPrice = '<p class="ps-product__price">$' + price + '</p>';
+        var badge = '';
+
+        try {
+            var offer = typeof product.offer === 'string'
+                ? JSON.parse(product.offer)
+                : product.offer;
+            if (Array.isArray(offer) && offer[0] === 'Disccount') {
+                var discountedPrice = price - (price * Number(offer[1]) / 100);
+                displayPrice = '<p class="ps-product__price sale">$' + discountedPrice.toFixed(2) + ' <del>$' + price + '</del></p>';
+                badge = '<div class="ps-product__badge">-' + offer[1] + '%</div>';
+            } else if (Array.isArray(offer) && offer[0] === 'Fixed') {
+                displayPrice = '<p class="ps-product__price sale">$' + offer[1] + ' <del>$' + price + '</del></p>';
+            }
+        } catch (error) {
+            displayPrice = '<p class="ps-product__price">$' + price + '</p>';
+        }
+
+        if (Number(product.stock) === 0) {
+            badge = '<div class="ps-product__badge out-stock">Out Of Stock</div>';
+        }
+
+        return [displayPrice, badge];
+    }
+
+}
+
 /*=============================================
 ProgressBar
 =============================================*/
