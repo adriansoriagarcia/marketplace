@@ -1,144 +1,181 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../config';
+import { Search } from '../../functions';
+
 import { CategoriesService } from '../../services/categories.service';
 import { SubCategoriesService } from '../../services/sub-categories.service';
 
-declare let jQuery:any;
-declare let $:any;
+type Category = {
+	name: string;
+	icon: string;
+	url: string;
+	title_list: string;
+};
 
-interface SubCategory {
-  category: string;
-  image: string;
-  name: string;
-  products_inventory: number;
-  title_list: string;
-  url: string;
-  view: number;
-}
+type SubCategory = {
+	title_list: string;
+	name: string;
+	url: string;
+};
 
-
-
+declare var jQuery:any;
+declare var $:any;
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  path: string = 'assets/';
-  categories: any[] = [];
-  arrayTitleList: any[] = [];
-  render: boolean = true;
-  authValidate: boolean = false;
-  picture!: string;
-  wishlist: number = 0;
-  shoppingCart: any[] = [];
-  totalShoppingCart: number = 0;
-  renderShopping: boolean = true;
-  subTotal: string = `<h3>Sub Total:<strong class="subTotalHeader"><div class="spinner-border"></div></strong></h3>`;
-  lang: boolean = false;
 
-  constructor(
-    private categoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService
-  ) {}
+	path: string = Path.url;
+	categories: Category[] = [];
+	arrayTitleList: string[][] = [];
+	render:Boolean = true;
 
-  ngOnInit() {
-    /*=============================================
+	constructor(private categoriesService: CategoriesService, private subCategoriesService: SubCategoriesService) { }
+
+	ngOnInit(): void {
+
+		/*=============================================
 		Tomamos la data de las categorías
 		=============================================*/
 
-    this.categoriesService.getData().subscribe((resp: Record<string, any>) => {
-      /*=============================================
+		this.categoriesService.getData()
+		.subscribe(resp => {
+
+			const categoryRecords = resp as Record<string, Category>;
+			this.categories = Object.values(categoryRecords);
+
+			/*=============================================
 			Recorremos la colección de categorías para tomar la lista de títulos
 			=============================================*/
 
-      let i;
+			for (const category of this.categories) {
 
-      for (i in resp) {
-        this.categories.push(resp[i]);
-
-        /*=============================================
+				/*=============================================
 				Separamos la lista de títulos en índices de un array
 				=============================================*/
+				
+				this.arrayTitleList.push(JSON.parse(category.title_list) as string[]);
+				
+			}
 
-        this.arrayTitleList.push(JSON.parse(resp[i].title_list));
-      }
-    });
-  }
+		})
+	
+	}
 
-  callback() {
-    if (this.render) {
-      this.render = false;
-      let arraySubCategories: SubCategory[][] = [];
+	/*=============================================
+	Declaramos función del buscador
+	=============================================*/
 
-      /*=============================================
+	goSearch(search: string): void {
+
+		if(search.length == 0 || Search.fnc(search) == undefined){
+
+			return;
+		}
+
+		window.open(`search/${Search.fnc(search)}`, '_top')
+
+	}
+
+	/*=============================================
+	Función que nos avisa cuando finaliza el renderizado de Angular
+	=============================================*/
+	
+	callback(){
+
+		if(this.render){
+
+			this.render = false;
+			const arraySubCategories: Array<Record<string, SubCategory>> = [];
+			
+			/*=============================================
 			Hacemos un recorrido por la lista de títulos
 			=============================================*/
 
-      this.arrayTitleList.forEach((titleList) => {
-        /*=============================================
+			this.arrayTitleList.forEach(titleList =>{
+
+				/*=============================================
 				Separar individualmente los títulos
 				=============================================*/
 
-        for (let i = 0; i < titleList.length; i++) {
-          /*=============================================
+				for(let i = 0; i < titleList.length; i++){
+					const requestedTitle = titleList[i];
+
+					/*=============================================
 					Tomamos la colección de las sub-categorías filtrando con la lista de títulos
 					=============================================*/
+					
+					this.subCategoriesService.getFilterData("title_list", requestedTitle)
+					.subscribe(resp =>{
+						
+						arraySubCategories.push(resp as Record<string, SubCategory>);
 
-          this.subCategoriesService
-            .getFilterData('title_list', titleList[i])
-            .subscribe((resp: any) => {
-              const subCategories = Array.isArray(resp) ? resp : [resp]; // Convierte en array si es necesario
-              arraySubCategories.push(...subCategories);
-
-              /*=============================================
+						/*=============================================
 						Hacemos un recorrido por la colección general de subcategorias
 						=============================================*/
 
-              let f;
-              let g;
-              let arrayTitleName = [];
-             
-              for (let f in arraySubCategories) {
-                /* Recorrer la colección particular de subcategorías */
-              
-                for (let g in arraySubCategories[f]) {
-                  const subCategory = arraySubCategories[f][g];  // Accede al objeto subCategory
-              
-                  // Verifica si las propiedades existen antes de hacer el push
-                  if (subCategory.title_list && subCategory.name && subCategory.url) {
-                    arrayTitleName.push({
-                      titleList: subCategory.title_list,  // Accede directamente a las propiedades
-                      subcategory: subCategory.name,
-                      url: subCategory.url,
-                    });
-                    //console.log('Pushed:', arrayTitleName);
-                  } 
-                }
-              }
-              
+						const arrayTitleName: SubCategory[] = [];
 
-              /*=============================================
+						for (const subCategoryRecords of arraySubCategories) {
+							
+							/*=============================================
+							Hacemos un recorrido por la colección particular de subcategorias
+							=============================================*/
+
+							for (const key in subCategoryRecords) {
+
+								/*=============================================
+								Creamos un nuevo array de objetos clasificando cada subcategoría con la respectiva lista de título a la que pertenece
+								=============================================*/
+
+								arrayTitleName.push({
+
+									"title_list": subCategoryRecords[key].title_list,
+									"name": subCategoryRecords[key].name,
+									"url": subCategoryRecords[key].url,
+
+								})
+
+							}
+
+						}
+
+						/*=============================================
 						Recorremos el array de objetos nuevo para buscar coincidencias con las listas de título
 						=============================================*/
-            //console.log('titleList:', titleList);  // Verifica el contenido de titleList
-            //console.log('arrayTitleName:', arrayTitleName); 
-              for (f in arrayTitleName) {
-                if (titleList[i] == arrayTitleName[f].titleList) {
-                  /*=============================================
+
+						for (const subCategory of arrayTitleName) {
+
+							if(requestedTitle == subCategory.title_list){
+								
+								/*=============================================
 								Imprimir el nombre de subcategoría debajo de el listado correspondiente
 								=============================================*/
-                  $(`[titleList='${titleList[i]}']`).append(
-                    `<li>
-										<a href="products/${arrayTitleName[f].url}">${arrayTitleName[f].subcategory}</a>
+
+								$(`[titleList='${requestedTitle}']`).append(
+
+									`<li>
+										<a href="products/${subCategory.url}">${subCategory.name}</a>
 									</li>`
-                  );
-                }
-              }
-            });
-        }
-      });
-    }
-  }
+
+								)
+						
+							}
+
+						}					
+
+					})
+
+				}			
+
+			})
+		}
+
+	}
+
+
+
 }

@@ -26,6 +26,8 @@ import { ProductsBreadcrumbComponent } from './pages/products/products-breadcrum
 import { BestSalesItemComponent } from './pages/products/best-sales-item/best-sales-item.component';
 import { ProductsRecommendedComponent } from './pages/products/products-recommended/products-recommended.component';
 import { ProductsShowcaseComponent } from './pages/products/products-showcase/products-showcase.component';
+import { SearchBreadcrumbComponent } from './pages/search/search-breadcrumb/search-breadcrumb.component';
+import { SearchShowcaseComponent } from './pages/search/search-showcase/search-showcase.component';
 
 
 
@@ -52,8 +54,8 @@ import { ProductsShowcaseComponent } from './pages/products/products-showcase/pr
     BestSalesItemComponent,
     ProductsRecommendedComponent,
     ProductsShowcaseComponent,
-    // SearchBreadcrumbComponent,
-    // SearchShowcaseComponent,
+    SearchBreadcrumbComponent,
+    SearchShowcaseComponent,
     // CallToActionComponent,
     // ProductBreadcrumbComponent,
     // ProductLeftComponent,

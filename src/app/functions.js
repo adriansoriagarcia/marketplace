@@ -415,6 +415,15 @@ export let Tabs = {
 
 }
 
+export let Search = {
+
+    fnc: function(value) {
+        var search = String(value).trim().toLowerCase();
+        return search.length > 0 ? search : undefined;
+    }
+
+}
+
 /*=============================================
 ProgressBar
 =============================================*/
