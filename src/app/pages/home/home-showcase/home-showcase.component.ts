@@ -36,15 +36,8 @@ export class HomeShowcaseComponent implements OnInit {
 		let getCategories = [];
 
 		this.categoriesService.getData()		
-		.subscribe( (resp: any) => {
-			
-			let i;
-
-			for(i in resp){
-
-				getCategories.push(resp[i])
-
-			}
+		.subscribe( resp => {
+			getCategories.push(...Object.values(resp));
 
 			/*=============================================
 			Ordenamos de mayor vistas a menor vistas el arreglo de objetos
@@ -78,37 +71,33 @@ export class HomeShowcaseComponent implements OnInit {
 	Función que nos avisa cuando finaliza el renderizado de Angular
 	=============================================*/
 
-	callback(indexes:any){
+	callback(indexes: number){
 
 		if(this.render){
 
 			this.render = false;
 
 			let arraySubCategories = [];
-			let arrayProducts = [];
-			let preloadSV = 0;
 
 			/*=============================================
 			Separar las categorías
 			=============================================*/
 
 			this.categories.forEach((category, index)=>{
+				const arrayProducts: any[] = [];
 				
 				/*=============================================
 				Tomamos la colección de las sub-categorías filtrando con los nombres de categoría
 				=============================================*/
 				this.subCategoriesService.getFilterData("category", category.name)
-				.subscribe((resp: any)=>{
-					
-					let i;
-
-					for(i in resp){
+				.subscribe(resp=>{
+					for (const subCategory of Object.values(resp)) {
 
 						arraySubCategories.push({
 
-							"category": resp[i].category,
-							"subcategory": resp[i].name,
-							"url": resp[i].url
+							"category": subCategory.category,
+							"subcategory": subCategory.name,
+							"url": subCategory.url
 
 						})
 						
@@ -118,13 +107,13 @@ export class HomeShowcaseComponent implements OnInit {
 					Recorremos el array de objetos nuevo para buscar coincidencias con los nombres de categorías
 					=============================================*/
 
-					for(i in arraySubCategories){
+					for (const subCategory of arraySubCategories) {
 
-						if(category.name == arraySubCategories[i].category){
+						if(category.name == subCategory.category){
 
 							$(`[category-showcase='${category.name}']`).append(`
 
-								<li><a href="products/${arraySubCategories[i].url}">${arraySubCategories[i].subcategory}</a></li>
+								<li><a href="products/${subCategory.url}">${subCategory.subcategory}</a></li>
 
 							`)
 						}
@@ -136,7 +125,7 @@ export class HomeShowcaseComponent implements OnInit {
 				Tomamos la colección de los productos filtrando con las url's de categorías
 				=============================================*/
 				this.productsService.getFilterDataWithLimit("category", category.url, 6)
-				.subscribe((resp: any)=>{ 
+				.subscribe(resp=>{ 
 					
 					let i;
 
@@ -327,33 +316,26 @@ export class HomeShowcaseComponent implements OnInit {
 							Ejecutar funciones globales con respecto al carrusel
 							=============================================*/	
 
-							preloadSV++;
-
-							if(preloadSV == (indexes+1)*6){
-
-								$(`[category-sl]`).addClass('ps-carousel--product-box')
-								$(`[category-sl]`).addClass('owl-slider')
-
-								$(`[category-sl]`).owlCarousel({
-
-									 items: 1,
-									 autoplay: true,
-									 autoplayTimeout: 7000,
-									 loop: true,
-                        		     nav: true,
-                        		     margin: 0,
-                        		     dots: true,
-                        		     navSpeed: 500,
-                        		     dotsSpeed: 500,
-                        		     dragEndSpeed: 500,
-                        		     navText: ["<i class='icon-chevron-left'></i>", "<i class='icon-chevron-right'></i>"],
-
-								});
-
-							}
-
 						}
 
+					}
+
+					const slider = $(`[category-sl='${category.url}']`);
+					if (slider.children().length > 0 && !slider.hasClass('owl-loaded')) {
+						slider.addClass('ps-carousel--product-box owl-carousel');
+						slider.owlCarousel({
+							items: 1,
+							autoplay: true,
+							autoplayTimeout: 7000,
+							loop: true,
+							nav: true,
+							margin: 0,
+							dots: true,
+							navSpeed: 500,
+							dotsSpeed: 500,
+							dragEndSpeed: 500,
+							navText: ["<i class='icon-chevron-left'></i>", "<i class='icon-chevron-right'></i>"],
+						});
 					}
 
 				})
