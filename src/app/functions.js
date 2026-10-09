@@ -424,6 +424,31 @@ export let Search = {
 
 }
 
+export let Quantity = {
+
+    fnc: function() {
+        $('.quantity').each(function() {
+            var wrapper = $(this);
+            var input = wrapper.find('input');
+            var min = Number(input.attr('min')) || 1;
+            var max = Number(input.attr('max')) || 99;
+
+            wrapper.find('.up').off('click.quantity').on('click.quantity', function(e) {
+                e.preventDefault();
+                var current = Number(input.val()) || min;
+                input.val(Math.min(current + 1, max));
+            });
+
+            wrapper.find('.down').off('click.quantity').on('click.quantity', function(e) {
+                e.preventDefault();
+                var current = Number(input.val()) || min;
+                input.val(Math.max(current - 1, min));
+            });
+        });
+    }
+
+}
+
 /*=============================================
 ProgressBar
 =============================================*/

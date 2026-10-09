@@ -20,7 +20,15 @@ interface TopBanner {
 })
 export class HeaderPromotionComponent implements OnInit {
   path: string = 'assets/';
-  top_banner!: TopBanner;
+  top_banner: TopBanner = {
+    'H3 tag': '',
+    'P1 tag': '',
+    'H4 tag': '',
+    'P2 tag': '',
+    'Span tag': '',
+    'Button tag': '',
+    'IMG tag': ''
+  };
   category: object = {};
   url: object = {};
   preload: boolean = false;

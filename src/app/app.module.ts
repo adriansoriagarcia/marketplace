@@ -30,8 +30,14 @@ import { SearchBreadcrumbComponent } from './pages/search/search-breadcrumb/sear
 import { SearchShowcaseComponent } from './pages/search/search-showcase/search-showcase.component';
 import { CallToActionComponent } from './pages/product/call-to-action/call-to-action.component';
 import { ProductBreadcrumbComponent } from './pages/product/product-breadcrumb/product-breadcrumb.component';
-
-
+import { ProductLeftComponent } from './pages/product/product-left/product-left.component';
+import { BoughtTogetherComponent } from './pages/product/product-left/bought-together/bought-together.component';
+import { VendorStoreComponent } from './pages/product/product-left/vendor-store/vendor-store.component';
+import { ReviewsComponent } from './pages/product/product-left/reviews/reviews.component';
+import { UrlsecurePipe } from './pipes/urlsecure.pipe';
+import { ProductRightComponent } from './pages/product/product-right/product-right.component';
+import { SimilarBoughtComponent } from './pages/product/similar-bought/similar-bought.component';
+import { RelatedProductComponent } from './pages/product/related-product/related-product.component';
 
 @NgModule({
   declarations: [
@@ -60,14 +66,14 @@ import { ProductBreadcrumbComponent } from './pages/product/product-breadcrumb/p
     SearchShowcaseComponent,
     CallToActionComponent,
     ProductBreadcrumbComponent,
-    // ProductLeftComponent,
-    // ProductRightComponent,
-    // UrlsecurePipe,
-    // BoughtTogetherComponent,
-    // VendorStoreComponent,
-    // ReviewsComponent,
-    // SimilarBoughtComponent,
-    // RelatedProductComponent
+    ProductLeftComponent,
+    ProductRightComponent,
+    SimilarBoughtComponent,
+    RelatedProductComponent,
+    BoughtTogetherComponent,
+    VendorStoreComponent,
+    ReviewsComponent,
+    UrlsecurePipe,
   ],
   imports: [
     BrowserModule,
