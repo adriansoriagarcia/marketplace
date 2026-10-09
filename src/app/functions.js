@@ -281,6 +281,174 @@ export let Rating = {
 
 }
 
+export let DinamicRating = {
+
+    fnc: function(product) {
+        try {
+            var reviews = typeof product.reviews === 'string'
+                ? JSON.parse(product.reviews)
+                : product.reviews;
+            if (!Array.isArray(reviews) || reviews.length === 0) {
+                return 0;
+            }
+            var total = reviews.reduce(function(sum, review) {
+                return sum + Number(review.review || 0);
+            }, 0);
+            return Math.round(total / reviews.length);
+        } catch (error) {
+            return 0;
+        }
+    }
+
+}
+
+export let DinamicReviews = {
+
+    fnc: function(rating) {
+        var reviews = [2, 2, 2, 2, 2];
+        if (Number.isInteger(Number(rating)) && Number(rating) >= 1 && Number(rating) <= 5) {
+            reviews[Number(rating) - 1] = 1;
+        }
+        return reviews;
+    }
+
+}
+
+export let DinamicPrice = {
+
+    fnc: function(product) {
+        var price = Number(product.price) || 0;
+        var displayPrice = '<p class="ps-product__price">$' + price + '</p>';
+        var badge = '';
+
+        try {
+            var offer = typeof product.offer === 'string'
+                ? JSON.parse(product.offer)
+                : product.offer;
+            if (Array.isArray(offer) && offer[0] === 'Disccount') {
+                var discountedPrice = price - (price * Number(offer[1]) / 100);
+                displayPrice = '<p class="ps-product__price sale">$' + discountedPrice.toFixed(2) + ' <del>$' + price + '</del></p>';
+                badge = '<div class="ps-product__badge">-' + offer[1] + '%</div>';
+            } else if (Array.isArray(offer) && offer[0] === 'Fixed') {
+                displayPrice = '<p class="ps-product__price sale">$' + offer[1] + ' <del>$' + price + '</del></p>';
+            }
+        } catch (error) {
+            displayPrice = '<p class="ps-product__price">$' + price + '</p>';
+        }
+
+        if (Number(product.stock) === 0) {
+            badge = '<div class="ps-product__badge out-stock">Out Of Stock</div>';
+        }
+
+        return [displayPrice, badge];
+    }
+
+}
+
+export let Pagination = {
+
+    fnc: function() {
+        $('.ps-pagination .pagination').each(function() {
+            var pagination = $(this);
+            var totalPages = Number(pagination.attr('data-total-pages')) || 0;
+            var actualPage = Number(pagination.attr('data-actual-page')) || 1;
+            var currentRoute = pagination.attr('data-current-route') || '';
+            var separator = currentRoute.indexOf('&') === -1 ? '&' : '&';
+            var pages = '';
+
+            if (totalPages < 1) {
+                return;
+            }
+
+            if (actualPage > 1) {
+                pages += '<li><a href="' + currentRoute + separator + (actualPage - 1) + '"><i class="icon-chevron-left"></i></a></li>';
+            }
+
+            for (var page = 1; page <= totalPages; page++) {
+                pages += '<li' + (page === actualPage ? ' class="active"' : '') + '><a href="' + currentRoute + separator + page + '">' + page + '</a></li>';
+            }
+
+            if (actualPage < totalPages) {
+                pages += '<li><a href="' + currentRoute + separator + (actualPage + 1) + '"><i class="icon-chevron-right"></i></a></li>';
+            }
+
+            pagination.html(pages);
+        });
+    }
+
+}
+
+export let Select2Cofig = {
+
+    fnc: function() {
+        $('select.ps-select').select2({
+            placeholder: function() {
+                return $(this).data('placeholder');
+            },
+            minimumResultsForSearch: -1
+        });
+    }
+
+}
+
+export let Tabs = {
+
+    fnc: function() {
+        $('.ps-tab-list li > a, .ps-tab-list.owl-slider .owl-item a').on('click', function(e) {
+            e.preventDefault();
+            var link = $(this);
+            var target = link.attr('href');
+
+            if (link.closest('.owl-item').length > 0) {
+                link.closest('.owl-item').siblings('.owl-item').removeClass('active');
+                link.closest('.owl-item').addClass('active');
+            } else {
+                link.closest('li').siblings('li').removeClass('active');
+                link.closest('li').addClass('active');
+            }
+
+            if (target) {
+                $(target).addClass('active').siblings('.ps-tab').removeClass('active');
+            }
+        });
+    }
+
+}
+
+export let Search = {
+
+    fnc: function(value) {
+        var search = String(value).trim().toLowerCase();
+        return search.length > 0 ? search : undefined;
+    }
+
+}
+
+export let Quantity = {
+
+    fnc: function() {
+        $('.quantity').each(function() {
+            var wrapper = $(this);
+            var input = wrapper.find('input');
+            var min = Number(input.attr('min')) || 1;
+            var max = Number(input.attr('max')) || 99;
+
+            wrapper.find('.up').off('click.quantity').on('click.quantity', function(e) {
+                e.preventDefault();
+                var current = Number(input.val()) || min;
+                input.val(Math.min(current + 1, max));
+            });
+
+            wrapper.find('.down').off('click.quantity').on('click.quantity', function(e) {
+                e.preventDefault();
+                var current = Number(input.val()) || min;
+                input.val(Math.max(current - 1, min));
+            });
+        });
+    }
+
+}
+
 /*=============================================
 ProgressBar
 =============================================*/

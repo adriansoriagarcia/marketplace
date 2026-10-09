@@ -1,6 +1,7 @@
 <!--=====================================
 	Header
 	======================================-->
+
     <header class="header header--standard header--market-place-4" data-sticky="true">
 
     	<!--=====================================
@@ -61,10 +62,9 @@
 					Logo
 					======================================-->
 
-                	<a class="ps-logo" href="index.html">
+                	<a class="ps-logo" routerLink="/">
                 		<img src="{{path}}img/template/logo_light.png" alt="">
                 	</a>
-                    
 
                 	<!--=====================================
 					Menú
@@ -109,7 +109,9 @@
                                 {{ lastIndex ? callback() : "" }}
                                     
                                 </li>
-                             
+                                
+                                
+                              
                             </ul>
 
                         </div>
@@ -123,19 +125,22 @@
 				======================================-->
 
                 <div class="header__content-center">
-                    <form class="ps-form--quick-search" action="index.html" method="get">
-                        <div class="form-group--icon">
-                        	<i class="icon-chevron-down"></i>
-                            <select class="form-control">
-                                <option value="1">All</option>
-                                <option value="1">Smartphone</option>
-                                <option value="1">Sounds</option>
-                                <option value="1">Technology toys</option>
-                            </select>
-                        </div>
-                        <input class="form-control" type="text" placeholder="I'm shopping for...">
-                        <button>Search</button>
+                    
+                    <form class="ps-form--quick-search"> 
+                        
+                        <input 
+                        (keyup.enter)="goSearch(search.value)"
+                        #search
+                        class="form-control" 
+                        type="text" 
+                        placeholder="I'm shopping for...">
+
+                        <button type="button"
+                        (click)="goSearch(search.value)"
+                        >Search</button>
+
                     </form>
+
                 </div>
 
                 <div class="header__content-right">
@@ -187,7 +192,7 @@
 
                                         <div class="ps-product__thumbnail">
                                         	<a href="#">
-                                        		<img src="assets/img/products/clothing/5.jpg" alt="">
+                                        		<img src="{{path}}img/products/clothing/5.jpg" alt="">
                                         	</a>
                                         </div>
 
@@ -241,3 +246,4 @@
         </div><!-- End Header Content-->
 
     </header>
+
