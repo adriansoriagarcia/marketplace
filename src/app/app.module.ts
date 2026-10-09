@@ -28,6 +28,7 @@ import { ProductsRecommendedComponent } from './pages/products/products-recommen
 import { ProductsShowcaseComponent } from './pages/products/products-showcase/products-showcase.component';
 import { SearchBreadcrumbComponent } from './pages/search/search-breadcrumb/search-breadcrumb.component';
 import { SearchShowcaseComponent } from './pages/search/search-showcase/search-showcase.component';
+import { CallToActionComponent } from './pages/product/call-to-action/call-to-action.component';
 
 
 
@@ -56,7 +57,7 @@ import { SearchShowcaseComponent } from './pages/search/search-showcase/search-s
     ProductsShowcaseComponent,
     SearchBreadcrumbComponent,
     SearchShowcaseComponent,
-    // CallToActionComponent,
+    CallToActionComponent,
     // ProductBreadcrumbComponent,
     // ProductLeftComponent,
     // ProductRightComponent,
