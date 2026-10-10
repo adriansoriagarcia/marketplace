@@ -55,12 +55,9 @@ export class UsersService {
 
 	registerDatabase(user: UsersModel){
 
-		delete user.first_name;
-		delete user.last_name;
-		delete user.password;
-		delete user.returnSecureToken;
+		const { first_name, last_name, password, returnSecureToken, ...userData } = user;
 
-		return this.http.post(`${this.api}/users.json`, user);
+		return this.http.post(`${this.api}/users.json`, userData);
 
 	}
 

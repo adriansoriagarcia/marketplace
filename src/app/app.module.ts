@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
@@ -38,6 +39,7 @@ import { UrlsecurePipe } from './pipes/urlsecure.pipe';
 import { ProductRightComponent } from './pages/product/product-right/product-right.component';
 import { SimilarBoughtComponent } from './pages/product/similar-bought/similar-bought.component';
 import { RelatedProductComponent } from './pages/product/related-product/related-product.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -74,11 +76,13 @@ import { RelatedProductComponent } from './pages/product/related-product/related
     VendorStoreComponent,
     ReviewsComponent,
     UrlsecurePipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
