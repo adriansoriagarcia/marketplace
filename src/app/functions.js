@@ -467,4 +467,71 @@ export let ProgressBar = {
 
 }
 
+export let Capitalize = {
+    fnc: function(value) {
+        return String(value).toLowerCase().replace(/(^|\s)(\S)/g, function(match, space, character) {
+            return space + character.toUpperCase();
+        });
+    }
+}
+
+export let Tooltip = {
+    fnc: function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+}
+
+export let Sweetalert = {
+    fnc: function(type, text, url) {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        if (typeof window['swal'] === 'function') {
+            const swal = window['swal'];
+
+            if (type === 'loading') {
+                swal({
+                    title: text,
+                    allowOutsideClick: false,
+                    didOpen: () => swal.showLoading()
+                });
+                return;
+            }
+
+            if (type === 'close') {
+                swal.close();
+                return;
+            }
+
+            swal({
+                icon: type === 'success' ? 'success' : type === 'error' ? 'error' : 'info',
+                text: text || ''
+            }).then(() => {
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+
+            return;
+        }
+
+        if (type === 'close') {
+            return;
+        }
+
+        if (type === 'loading') {
+            return;
+        }
+
+        if (url) {
+            window.location.href = url;
+        }
+
+        if (typeof text === 'string' && text.length > 0) {
+            window.alert(text);
+        }
+    }
+};
+
  

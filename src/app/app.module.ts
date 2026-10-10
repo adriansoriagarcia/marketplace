@@ -1,9 +1,11 @@
+import { AccountBreadcrumbComponent } from './pages/account/account-breadcrumb/account-breadcrumb.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
@@ -38,6 +40,11 @@ import { UrlsecurePipe } from './pipes/urlsecure.pipe';
 import { ProductRightComponent } from './pages/product/product-right/product-right.component';
 import { SimilarBoughtComponent } from './pages/product/similar-bought/similar-bought.component';
 import { RelatedProductComponent } from './pages/product/related-product/related-product.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { AccountComponent } from './pages/account/account.component';
+import { AccountProfileComponent } from './pages/account/account-profile/account-profile.component';
+import { AccountWishlistComponent } from './pages/account/account-profile/account-wishlist/account-wishlist.component';
 
 @NgModule({
   declarations: [
@@ -74,11 +81,18 @@ import { RelatedProductComponent } from './pages/product/related-product/related
     VendorStoreComponent,
     ReviewsComponent,
     UrlsecurePipe,
+    LoginComponent,
+    RegisterComponent,
+    AccountComponent,
+    AccountProfileComponent,
+    AccountBreadcrumbComponent,
+    AccountWishlistComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

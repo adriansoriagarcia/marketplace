@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { Path } from '../../config';
 import { Search } from '../../functions';
 
 import { CategoriesService } from '../../services/categories.service';
 import { SubCategoriesService } from '../../services/sub-categories.service';
+import { UsersService } from '../../services/users.service';
 
 type Category = {
 	name: string;
@@ -32,10 +35,20 @@ export class HeaderComponent implements OnInit {
 	categories: Category[] = [];
 	arrayTitleList: string[][] = [];
 	render:Boolean = true;
+	authValidate = false;
 
-	constructor(private categoriesService: CategoriesService, private subCategoriesService: SubCategoriesService) { }
+	constructor(
+		private categoriesService: CategoriesService,
+		private subCategoriesService: SubCategoriesService,
+		private usersService: UsersService,
+		private router: Router
+	) { }
 
 	ngOnInit(): void {
+		this.refreshAuth();
+		this.router.events
+			.pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+			.subscribe(() => this.refreshAuth());
 
 		/*=============================================
 		Tomamos la data de las categorías
@@ -63,6 +76,19 @@ export class HeaderComponent implements OnInit {
 
 		})
 	
+	}
+
+	private refreshAuth(): void {
+		this.usersService.authActivate().then(isAuthenticated => {
+			this.authValidate = isAuthenticated;
+		});
+	}
+
+	logout(): void {
+		localStorage.removeItem('idToken');
+		localStorage.removeItem('expiresIn');
+		this.authValidate = false;
+		this.router.navigateByUrl('/login');
 	}
 
 	/*=============================================

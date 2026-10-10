@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { Path } from '../../config';
 import { CategoriesService } from '../../services/categories.service';
 import { SubCategoriesService } from '../../services/sub-categories.service';
+import { UsersService } from '../../services/users.service';
 
 declare let jQuery: any;
 declare let $: any;
@@ -34,7 +37,9 @@ export class HeaderMobileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private subCategoriesService: SubCategoriesService
+    private subCategoriesService: SubCategoriesService,
+    private usersService: UsersService,
+    private router: Router
   ) {}
 
   ngAfterViewInit() {
@@ -44,6 +49,11 @@ export class HeaderMobileComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.refreshAuth();
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe(() => this.refreshAuth());
+
     /*=============================================
 		Tomamos la data de las categorías
 		=============================================*/
@@ -75,6 +85,19 @@ export class HeaderMobileComponent implements OnInit, AfterViewInit {
         $(this).parent().children('ul').toggle();
       });
     });
+  }
+
+  private refreshAuth(): void {
+    this.usersService.authActivate().then((isAuthenticated) => {
+      this.authValidate = isAuthenticated;
+    });
+  }
+
+  logout(): void {
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('expiresIn');
+    this.authValidate = false;
+    this.router.navigateByUrl('/login');
   }
 
   callback() {
