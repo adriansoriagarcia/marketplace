@@ -467,6 +467,14 @@ export let ProgressBar = {
 
 }
 
+export let Capitalize = {
+    fnc: function(value) {
+        return String(value).toLowerCase().replace(/(^|\s)(\S)/g, function(match, space, character) {
+            return space + character.toUpperCase();
+        });
+    }
+}
+
 export let Sweetalert = {
     fnc: function(type, text, url) {
         if (typeof window === 'undefined') {

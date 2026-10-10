@@ -40,6 +40,7 @@ import { ProductRightComponent } from './pages/product/product-right/product-rig
 import { SimilarBoughtComponent } from './pages/product/similar-bought/similar-bought.component';
 import { RelatedProductComponent } from './pages/product/related-product/related-product.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { LoginComponent } from './pages/login/login.component';
     VendorStoreComponent,
     ReviewsComponent,
     UrlsecurePipe,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

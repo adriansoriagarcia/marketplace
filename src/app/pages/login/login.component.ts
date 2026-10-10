@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import  { NgForm } from '@angular/forms';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import firebase from '../../firebase';
 
 import { Sweetalert } from '../../functions';
 
@@ -378,20 +377,6 @@ export class LoginComponent implements OnInit {
 		Inicializa Firebase en tu proyecto web
 		=============================================*/
 
-		// Your web app's Firebase configuration
-		const firebaseConfig = {
-			apiKey: "api-key",
-			authDomain: "project-id.firebaseapp.com",
-			databaseURL: "https://project-id.firebaseio.com",
-			projectId: "project-id",
-			storageBucket: "project-id.appspot.com",
-			messagingSenderId: "sender-id",
-			appID: "app-id"
-		}
-
-		// Initialize Firebase
-		firebase.initializeApp(firebaseConfig);
-
 		//https://firebase.google.com/docs/auth/web/facebook-login
 
 		/*=============================================
@@ -517,20 +502,6 @@ export class LoginComponent implements OnInit {
 		/*=============================================
 		Inicializa Firebase en tu proyecto web
 		=============================================*/
-
-		// Your web app's Firebase configuration
-		const firebaseConfig = {
-			apiKey: "api-key",
-			authDomain: "project-id.firebaseapp.com",
-			databaseURL: "https://project-id.firebaseio.com",
-			projectId: "project-id",
-			storageBucket: "project-id.appspot.com",
-			messagingSenderId: "sender-id",
-			appID: "app-id"
-		}
-
-		// Initialize Firebase
-		firebase.initializeApp(firebaseConfig);
 
 		//https://firebase.google.com/docs/auth/web/facebook-login
 
