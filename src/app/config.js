@@ -16,6 +16,10 @@ export let Api = {
 
 }
 
+export let Server = {
+	url: ''
+}
+
 export let Register = {
 	url: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDRVij1tXguq79d0rpLnnaUUbuWnYvhgSs'
 }

@@ -475,6 +475,12 @@ export let Capitalize = {
     }
 }
 
+export let Tooltip = {
+    fnc: function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+}
+
 export let Sweetalert = {
     fnc: function(type, text, url) {
         if (typeof window === 'undefined') {
@@ -511,6 +517,10 @@ export let Sweetalert = {
         }
 
         if (type === 'close') {
+            return;
+        }
+
+        if (type === 'loading') {
             return;
         }
 

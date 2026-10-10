@@ -133,8 +133,6 @@ export class RegisterComponent implements OnInit {
   	Registro en Firebase Authentication
   	=============================================*/
 		
-		this.user.returnSecureToken = true;
-
 		this.usersService.registerAuth(this.user)
 		.subscribe(resp=>{
 			
@@ -147,14 +145,15 @@ export class RegisterComponent implements OnInit {
         let body = {
 
           requestType: "VERIFY_EMAIL",
-          idToken: resp["idToken"]
+          idToken: resp["idToken"],
+          continueUrl: `${window.location.origin}/login`
         
         }
 
         this.usersService.sendEmailVerificationFnc(body)
         .subscribe(resp=>{
           
-          if(resp["email"] == this.user.email){
+          if(resp["email"]){
 
             /*=============================================
             Registro en Firebase Database
@@ -170,17 +169,27 @@ export class RegisterComponent implements OnInit {
               
                Sweetalert.fnc("success", "Confirm your account in your email (check spam)", "login")
 
+            }, err => {
+              Sweetalert.fnc("close", null, null);
+              Sweetalert.fnc("error", err.error?.error?.message || "The account was created, but its profile could not be saved", null);
             })
 
+          } else {
+            Sweetalert.fnc("close", null, null);
+            Sweetalert.fnc("error", "Firebase did not confirm that the verification email was sent", null);
           }
 
+        }, err => {
+          Sweetalert.fnc("close", null, null);
+          Sweetalert.fnc("error", err.error?.error?.message || "Could not send the verification email", null);
         })				
 
 			}
 
 		}, err =>{
 
-      Sweetalert.fnc("error", err.error.error.message, null)
+      Sweetalert.fnc("close", null, null);
+      Sweetalert.fnc("error", err.error?.error?.message || "Could not create the account", null)
 
     })
 

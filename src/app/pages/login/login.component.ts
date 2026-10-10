@@ -8,7 +8,7 @@ import { UsersModel } from '../../models/users.model';
 
 import { UsersService  } from '../../services/users.service';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 declare var jQuery:any;
 declare var $:any;
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
 	rememberMe:boolean = false;
 
 	constructor(private usersService: UsersService,
-				private activatedRoute: ActivatedRoute) {
+				private activatedRoute: ActivatedRoute,
+				private router: Router) {
 
 		this.user = new UsersModel();
 
@@ -197,30 +198,31 @@ export class LoginComponent implements OnInit {
       	Sweetalert.fnc("loading", "Loading...", null)
 
       	/*=============================================
-       	Validar que el correo esté verificado
+       	Buscar el perfil del usuario
         =============================================*/
 
      	this.usersService.getFilterData("email", this.user.email) 
      	.subscribe( resp1 =>{
 
-     		for(const i in resp1){
+			const userIds = resp1 ? Object.keys(resp1) : [];
+			if (userIds.length === 0) {
+				Sweetalert.fnc("close", null, null);
+				Sweetalert.fnc("error", "This account is not registered", null);
+				return;
+			}
 
-     			if(resp1[i].needConfirm){
+			const id = userIds[0];
 
      				/*=============================================
 			    	Login en Firebase Authentication
 			    	=============================================*/
 			  		
-			  		this.user.returnSecureToken = true;
-
 			  		this.usersService.loginAuth(this.user)
 			  		.subscribe( resp2 => {
 
 			  			/*=============================================
 			    		Almacenar id Token en Firebase Database
 			    		=============================================*/
-
-			    		let id = Object.keys(resp1).toString();
 
 		      			let value = {
 
@@ -230,7 +232,7 @@ export class LoginComponent implements OnInit {
 		      			this.usersService.patchData(id, value)
 		      			.subscribe(resp3=>{
 
-		      				if(resp3["idToken"] != ""){
+		      				if(resp3 && resp3["idToken"]){
 
 		      					Sweetalert.fnc("close", null, null)
 			  			
@@ -250,11 +252,8 @@ export class LoginComponent implements OnInit {
 								Almacenamos la fecha de expiración localstorage
 								=============================================*/
 
-								let today = new Date();
-
-								today.setSeconds(resp2["expiresIn"]);
-
-								localStorage.setItem("expiresIn", today.getTime().toString());
+								const expiresAt = Date.now() + Number(resp2["expiresIn"]) * 1000;
+								localStorage.setItem("expiresIn", expiresAt.toString());
 
 								/*=============================================
 								Almacenamos recordar email en el localStorage
@@ -274,27 +273,30 @@ export class LoginComponent implements OnInit {
 								Redireccionar al usuario a la página de su cuenta
 								=============================================*/
 
-								window.open("account", "_top");
+								this.router.navigateByUrl('/account');
 
 		      				}
+							else {
+								Sweetalert.fnc("close", null, null);
+								Sweetalert.fnc("error", "Could not save the login session", null);
+							}
 
-		      			})
+		      			}, err => {
+							Sweetalert.fnc("close", null, null);
+							Sweetalert.fnc("error", err.error?.error?.message || "Could not save the login session", null);
+						})
 
 			  		}, err =>{
 
-			        	Sweetalert.fnc("error", err.error.error.message, null)
+						Sweetalert.fnc("close", null, null);
+			        	Sweetalert.fnc("error", err.error?.error?.message || "Login failed", null)
 
 			      	})
 
-     			}else{
-
-     				Sweetalert.fnc("error", 'Need Confirm your email', null)
-
-     			}
-
-     		}
-
-     	}) 		
+     	}, err => {
+			Sweetalert.fnc("close", null, null);
+			Sweetalert.fnc("error", err.error?.error?.message || "Could not check the account", null);
+		}) 		
 
   	}
 
@@ -366,6 +368,7 @@ export class LoginComponent implements OnInit {
 
   		let localUsersService = this.usersService;
   		let localUser = this.user;
+		let localRouter = this.router;
 
 		// https://firebase.google.com/docs/web/setup
 		// Crea una nueva APP en Settings
@@ -459,7 +462,7 @@ export class LoginComponent implements OnInit {
 								Redireccionar al usuario a la página de su cuenta
 								=============================================*/
 
-								window.open("account", "_top");
+								localRouter.navigateByUrl('/account');
 
 
 							})
@@ -492,6 +495,7 @@ export class LoginComponent implements OnInit {
 
   		let localUsersService = this.usersService;
   		let localUser = this.user;
+		let localRouter = this.router;
 
 		// https://firebase.google.com/docs/web/setup
 		// Crea una nueva APP en Settings
@@ -515,97 +519,45 @@ export class LoginComponent implements OnInit {
 		acceder con una ventana emergente 
 		=============================================*/
 
-		firebase.auth().signInWithPopup(provider).then(function(result) {
-
-			loginFirebaseDatabase(result, localUser, localUsersService)
-
-		}).catch(function(error) {
-
-			var errorMessage = error.message;
-
-			Sweetalert.fnc("error", errorMessage, "login");
-
-		});
-
-		/*=============================================
-		Registramos al usuario en Firebase Database
-		=============================================*/
-
-		function loginFirebaseDatabase(result, localUser, localUsersService){
-
-			var user = result.user; 
-
-			if(user.P){
-
-				localUsersService.getFilterData("email", user.email)
-				.subscribe(resp=>{
-
-					if(Object.keys(resp).length > 0){
-
-						if(resp[Object.keys(resp)[0]].method == "google"){
-
-							/*=============================================
-							Actualizamos el idToken en Firebase
-							=============================================*/
-
-							let id = Object.keys(resp).toString();
-
-							let body = {	
-
-								idToken: user.b.b.g
-							}
-
-							localUsersService.patchData(id, body)
-							.subscribe(resp=>{
-
-								/*=============================================
-								Almacenamos el Token de seguridad en el localstorage
-								=============================================*/
-
-								localStorage.setItem("idToken", user.b.b.g);
-
-								/*=============================================
-								Almacenamos el email en el localstorage
-								=============================================*/
-
-								localStorage.setItem("email", user.email);
-
-								/*=============================================
-								Almacenamos la fecha de expiración localstorage
-								=============================================*/
-
-								let today = new Date();
-
-								today.setSeconds(3600);
-
-								localStorage.setItem("expiresIn", today.getTime().toString());
-
-								/*=============================================
-								Redireccionar al usuario a la página de su cuenta
-								=============================================*/
-
-								window.open("account", "_top");
-
-
-							})
-
-						}else{
-
-							Sweetalert.fnc("error", `You're already signed in, please login with ${resp[Object.keys(resp)[0]].method} method`, "login")
-						}
-
-					}else{
-
-						Sweetalert.fnc("error", "This account is not registered", "register")
-
-					}
-
-
-				})
-				
-
+		firebase.auth().signInWithPopup(provider).then(async result => {
+			const authUser = result.user;
+			if (!authUser.email) {
+				throw new Error('Google did not provide an email address');
 			}
-		}
+			const email = authUser.email;
+
+			const idToken = await authUser.getIdToken();
+			const tokenResult = await authUser.getIdTokenResult();
+
+			localUsersService.getFilterData("email", email)
+			.subscribe(resp => {
+				const userIds = resp ? Object.keys(resp) : [];
+				if (userIds.length === 0) {
+					Sweetalert.fnc("error", "This account is not registered", "register");
+					return;
+				}
+
+				const id = userIds[0];
+				if (resp[id].method === "facebook") {
+					Sweetalert.fnc("error", `You're already signed in, please login with ${resp[id].method} method`, "login");
+					return;
+				}
+
+				localUsersService.patchData(id, { idToken })
+				.subscribe(() => {
+					localStorage.setItem("idToken", idToken);
+					localStorage.setItem("email", email);
+					localStorage.setItem("expiresIn", Date.parse(tokenResult.expirationTime).toString());
+					localRouter.navigateByUrl('/account');
+				}, error => {
+					Sweetalert.fnc("error", error.error?.error?.message || "Could not save the login session", null);
+				});
+			}, error => {
+				Sweetalert.fnc("error", error.error?.error?.message || "Could not find the account profile", null);
+			});
+		}).catch(error => {
+			Sweetalert.fnc("error", error.message || "Google login failed", null);
+		});
 
 	}
 

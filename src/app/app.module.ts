@@ -1,3 +1,4 @@
+import { AccountBreadcrumbComponent } from './pages/account/account-breadcrumb/account-breadcrumb.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -41,6 +42,9 @@ import { SimilarBoughtComponent } from './pages/product/similar-bought/similar-b
 import { RelatedProductComponent } from './pages/product/related-product/related-product.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { AccountComponent } from './pages/account/account.component';
+import { AccountProfileComponent } from './pages/account/account-profile/account-profile.component';
+import { AccountWishlistComponent } from './pages/account/account-profile/account-wishlist/account-wishlist.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +82,11 @@ import { RegisterComponent } from './pages/register/register.component';
     ReviewsComponent,
     UrlsecurePipe,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AccountComponent,
+    AccountProfileComponent,
+    AccountBreadcrumbComponent,
+    AccountWishlistComponent,
   ],
   imports: [
     BrowserModule,

@@ -43,9 +43,13 @@ export class UsersService {
 	Registro en Firebase Authentication
 	=============================================*/
 	
-	registerAuth(user: UsersModel){
+	registerAuth(user: Pick<UsersModel, 'email' | 'password'>){
 
-		return this.http.post(`${this.register}`, user);
+		return this.http.post(`${this.register}`, {
+			email: user.email,
+			password: user.password,
+			returnSecureToken: true
+		});
 
 	}
 
@@ -55,7 +59,7 @@ export class UsersService {
 
 	registerDatabase(user: UsersModel){
 
-		const { first_name, last_name, password, returnSecureToken, ...userData } = user;
+		const { password, returnSecureToken, idToken, ...userData } = user;
 
 		return this.http.post(`${this.api}/users.json`, userData);
 
@@ -75,9 +79,13 @@ export class UsersService {
   	Login en Firebase Authentication
   	=============================================*/
   
-  	loginAuth(user: UsersModel){
+  	loginAuth(user: Pick<UsersModel, 'email' | 'password'>){
 
-    	return this.http.post(`${this.login}`, user);
+    	return this.http.post(`${this.login}`, {
+  			email: user.email,
+  			password: user.password,
+  			returnSecureToken: true
+  		});
 
   	} 
 
@@ -117,7 +125,7 @@ export class UsersService {
 
   	authActivate(){	
 
-  		return new Promise(resolve=>{
+  		return new Promise<boolean>(resolve=>{
 
 			/*=============================================
 	  		Validamos que el idToken sea real
